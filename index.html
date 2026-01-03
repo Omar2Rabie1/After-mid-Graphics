@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Graphics Exam - Units 4-8</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --correct-color: #2ecc71;
+            --wrong-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .page {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .unit-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary-color);
+        }
+        
+        .unit-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .unit-card p {
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
+        
+        .question-container {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .question-text {
+            flex: 1;
+            margin-left: 15px;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: var(--dark-color);
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .option {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            background-color: #e0e7f1;
+        }
+        
+        .option-letter {
+            background-color: var(--dark-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .option-text {
+            flex: 1;
+        }
+        
+        .option.correct {
+            background-color: rgba(46, 204, 113, 0.2);
+            border-color: var(--correct-color);
+        }
+        
+        .option.wrong {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-color: var(--wrong-color);
+        }
+        
+        .answer-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .answer-feedback.correct {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: var(--correct-color);
+            display: block;
+        }
+        
+        .answer-feedback.wrong {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--wrong-color);
+            display: block;
+        }
+        
+        .answer-feedback span {
+            font-weight: normal;
+            display: block;
+            margin-top: 5px;
+            color: #555;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d5dbdb;
+        }
+        
+        .results-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            margin: 0 auto 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid var(--secondary-color);
+        }
+        
+        .score-percentage {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .score-label {
+            font-size: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .results-details {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .result-item {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            min-width: 150px;
+        }
+        
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin-top: 5px;
+        }
+        
+        .correct-count {
+            color: var(--correct-color);
+        }
+        
+        .wrong-count {
+            color: var(--wrong-color);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-color);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+        
+        .unit-title {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-color);
+            font-size: 1.5rem;
+        }
+        
+        .home-btn {
+            display: block;
+            margin: 20px auto;
+            width: 200px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .units-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-header {
+                flex-direction: column;
+            }
+            
+            .question-text {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Computer Graphics Exam - Units 4-8</h1>
+            <p>Test your knowledge in filling algorithms, geometric transformations, clipping, and ellipse drawing</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Main Units Page -->
+        <div class="page active" id="units-page">
+            <h2>Select Unit for Exam</h2>
+            <p>Each test contains multiple choice questions. When you click an answer, the correct answer will be shown with explanation.</p>
+            
+            <div class="units-grid">
+                <div class="unit-card" data-unit="4">
+                    <h3>Unit 4</h3>
+                    <p>Polygon filling algorithms, line clipping algorithms (Brute Force, Cohen-Sutherland, Liang-Barsky)</p>
+                </div>
+                
+                <div class="unit-card" data-unit="5">
+                    <h3>Unit 5</h3>
+                    <p>Geometric transformations (Translation, Rotation, Scaling, Shear), Homogeneous coordinates, Current Transformation Matrix (CTM)</p>
+                </div>
+                
+                <div class="unit-card" data-unit="6">
+                    <h3>Unit 6</h3>
+                    <p>Area filling: Scan-Line, Boundary Fill, Flood Fill, Polygon types (Convex, Concave)</p>
+                </div>
+                
+                <div class="unit-card" data-unit="7">
+                    <h3>Unit 7</h3>
+                    <p>Line clipping: Cohen-Sutherland, Liang-Barsky, Sutherland-Hodgman, Weiler-Atherton</p>
+                </div>
+                
+                <div class="unit-card" data-unit="8">
+                    <h3>Unit 8</h3>
+                    <p>Polygon clipping, Convex and concave polygons, Midpoint Ellipse Algorithm</p>
+                </div>
+                
+                <div class="unit-card" data-unit="all">
+                    <h3>All Units</h3>
+                    <p>Comprehensive test for all units 4-8 (20 random questions)</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exam Questions Page -->
+        <div class="page" id="exam-page">
+            <h2 class="unit-title" id="unit-title">Unit 4: Polygon Filling Algorithms</h2>
+            
+            <div class="progress-info">
+                <span id="current-question">1</span> / <span id="total-questions">10</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            
+            <div id="questions-container">
+                <!-- Questions will be dynamically added here -->
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn btn-secondary" id="prev-btn" disabled>Previous</button>
+                <button class="btn btn-primary" id="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Results Page -->
+        <div class="page" id="results-page">
+            <div class="results-container">
+                <h2>Exam Results</h2>
+                <p id="results-message">You have completed the exam successfully!</p>
+                
+                <div class="score-circle">
+                    <div class="score-percentage" id="score-percentage">0%</div>
+                    <div class="score-label">Percentage</div>
+                </div>
+                
+                <div class="results-details">
+                    <div class="result-item">
+                        <div class="result-value correct-count" id="correct-count">0</div>
+                        <div class="result-label">Correct Answers</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-value wrong-count" id="wrong-count">0</div>
+                        <div class="result-label">Wrong Answers</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-value" id="total-answered">0</div>
+                        <div class="result-label">Total Questions</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary home-btn" id="back-to-units">Back to Units</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Designed for educational purposes - Computer Graphics Exam (Units 4-8)</p>
+            <p>All rights reserved © 2023</p>
+        </div>
+    </footer>
+
+    <script>
+        // Questions data from the provided files
+        const allQuestions = [
+            // Unit 4
+            {
+                unit: 4,
+                question: "Which filling algorithm explicitly uses an Edge Table (ET)?",
+                options: ["Boundary Fill", "Flood Fill", "Scan-Line Fill", "Seed Fill"],
+                correctAnswer: 2,
+                explanation: "Scan-Line Fill algorithm uses an Edge Table (ET) to store information about polygon edges for efficient processing."
+            },
+            {
+                unit: 4,
+                question: "A polygon in which any line joining two boundary points lies completely inside is called:",
+                options: ["Concave", "Convex", "Self-intersecting", "Irregular"],
+                correctAnswer: 1,
+                explanation: "Convex polygons have the property that any line segment connecting two points within the polygon lies entirely inside it."
+            },
+            {
+                unit: 4,
+                question: "Flood Fill differs from Boundary Fill because Flood Fill:",
+                options: ["Replaces an old interior color", "Uses scan lines", "Depends on boundary color", "Requires convex shapes"],
+                correctAnswer: 0,
+                explanation: "Flood Fill replaces an old interior color with a new one, while Boundary Fill depends on detecting a boundary color."
+            },
+            {
+                unit: 4,
+                question: "Which clipping algorithm is based on region (out) codes?",
+                options: ["Sutherland–Hodgman", "Liang–Barsky", "Weiler–Atherton", "Cohen–Sutherland"],
+                correctAnswer: 3,
+                explanation: "Cohen-Sutherland algorithm uses region codes (also called out codes) to classify endpoints relative to the clipping window."
+            },
+            {
+                unit: 4,
+                question: "A line is trivially accepted in Cohen-Sutherland when:",
+                options: ["(code1 AND code2) ≠ 0", "(code1 OR code2) ≠ 0", "One endpoint is outside", "(code1 OR code2) = 0"],
+                correctAnswer: 3,
+                explanation: "When (code1 OR code2) = 0, both endpoints are inside the window, so the line is trivially accepted."
+            },
+            // Unit 5
+            {
+                unit: 5,
+                question: "Translation of a point is expressed mathematically as:",
+                options: ["P' = P × d", "P' = d - P", "P' = P + d", "P' = P - d"],
+                correctAnswer: 2,
+                explanation: "Translation is the addition of a displacement vector d to point P."
+            },
+            {
+                unit: 5,
+                question: "Which transformations are considered rigid-body transformations?",
+                options: ["Scaling and rotation", "Reflection and shear", "Translation and rotation", "Scaling and shear"],
+                correctAnswer: 2,
+                explanation: "Rigid-body transformations (translation and rotation) preserve distances and angles, maintaining the object's shape and size."
+            },
+            {
+                unit: 5,
+                question: "Scaling with a factor 0 ≤ a < 1 will:",
+                options: ["Enlarge the object", "Reduce the object size", "Reflect the object", "Rotate the object"],
+                correctAnswer: 1,
+                explanation: "A scaling factor between 0 and 1 reduces the size of the object uniformly."
+            },
+            {
+                unit: 5,
+                question: "Negative scaling results in:",
+                options: ["Shear", "Reflection", "Rotation", "Translation"],
+                correctAnswer: 1,
+                explanation: "Negative scaling factors produce reflection (mirror image) across the corresponding axis."
+            },
+            {
+                unit: 5,
+                question: "Which transformation primarily slants an object?",
+                options: ["Scaling", "Rotation", "Translation", "Shear"],
+                correctAnswer: 3,
+                explanation: "Shear transformation slants or skews an object along a specified axis."
+            },
+            // Unit 6
+            {
+                unit: 6,
+                question: "Which statement best describes the scan-line polygon filling algorithm?",
+                options: ["It expands outward from a seed point", "It scans the polygon horizontally line by line", "It colors all boundary pixels first", "It traces polygon edges vertically"],
+                correctAnswer: 1,
+                explanation: "Scan-line algorithm processes the polygon by examining horizontal scan lines from top to bottom."
+            },
+            {
+                unit: 6,
+                question: "Boundary Fill algorithm stops when it encounters:",
+                options: ["Any pixel", "Boundary color", "Old interior color", "Screen edge"],
+                correctAnswer: 1,
+                explanation: "Boundary Fill continues filling until it reaches a pixel with the boundary color."
+            },
+            {
+                unit: 6,
+                question: "Which filling method behaves most like a paint bucket tool?",
+                options: ["Flood Fill", "Scan-Line Fill", "Boundary Fill", "Edge Fill"],
+                correctAnswer: 0,
+                explanation: "Flood Fill works like a paint bucket tool by replacing an old interior color with a new fill color."
+            },
+            {
+                unit: 6,
+                question: "Boundary Fill may fail if:",
+                options: ["The boundary color is not uniform", "The polygon is convex", "Scan lines intersect edges", "The region is small"],
+                correctAnswer: 0,
+                explanation: "Boundary Fill requires a uniformly colored boundary to detect when to stop filling."
+            },
+            {
+                unit: 6,
+                question: "Flood Fill differs from Boundary Fill because Flood Fill:",
+                options: ["Replaces an old interior color", "Uses scan lines", "Depends on boundary color", "Requires convex shapes"],
+                correctAnswer: 0,
+                explanation: "Flood Fill replaces an old interior color, while Boundary Fill depends on detecting a boundary color."
+            },
+            // Unit 7
+            {
+                unit: 7,
+                question: "Which algorithm is most suitable for concave polygon clipping?",
+                options: ["Weiler-Atherton", "Cohen-Sutherland", "Liang-Barsky", "Sutherland-Hodgman"],
+                correctAnswer: 0,
+                explanation: "Weiler-Atherton algorithm can correctly handle concave polygons, unlike Sutherland-Hodgman which is designed for convex polygons."
+            },
+            {
+                unit: 7,
+                question: "Cohen-Sutherland divides the plane into how many regions?",
+                options: ["8", "16", "4", "9"],
+                correctAnswer: 3,
+                explanation: "Cohen-Sutherland divides the 2D plane into 9 regions: 8 outside regions and 1 inside region (the window)."
+            },
+            {
+                unit: 7,
+                question: "Trivial rejection in Cohen–Sutherland occurs when:",
+                options: ["One endpoint is inside", "The line is vertical", "(code1 AND code2) ≠ 0", "(code1 OR code2) = 0"],
+                correctAnswer: 2,
+                explanation: "When (code1 AND code2) ≠ 0, both endpoints are on the same side of the window, so the line is trivially rejected."
+            },
+            {
+                unit: 7,
+                question: "Which clipping algorithm uses parametric line equations?",
+                options: ["Liang–Barsky", "Cohen–Sutherland", "Weiler–Atherton", "Sutherland–Hodgman"],
+                correctAnswer: 0,
+                explanation: "Liang-Barsky algorithm uses parametric line equations to compute intersection points with window boundaries."
+            },
+            {
+                unit: 7,
+                question: "A disadvantage of Liang–Barsky algorithm is that it is:",
+                options: ["Inaccurate", "Difficult to implement", "Very slow", "Limited to circles"],
+                correctAnswer: 1,
+                explanation: "Liang-Barsky algorithm is more complex to implement compared to Cohen-Sutherland, though it's more efficient."
+            },
+            // Unit 8
+            {
+                unit: 8,
+                question: "Midpoint Ellipse Algorithm is efficient mainly because it uses:",
+                options: ["Recursive subdivision", "Floating-point arithmetic", "Incremental integer calculations", "Trigonometric functions"],
+                correctAnswer: 2,
+                explanation: "Midpoint Ellipse Algorithm uses incremental integer calculations, making it efficient for rasterization."
+            },
+            {
+                unit: 8,
+                question: "Ellipse drawing is more complex than circle drawing because an ellipse has:",
+                options: ["Infinite curvature", "Two radii", "No symmetry", "No center"],
+                correctAnswer: 1,
+                explanation: "Ellipses have two radii (major and minor axes), while circles have only one radius."
+            },
+            {
+                unit: 8,
+                question: "Midpoint Ellipse Algorithm divides the first quadrant into:",
+                options: ["Three regions", "Four regions", "One region", "Two regions"],
+                correctAnswer: 3,
+                explanation: "The algorithm divides the first quadrant into two regions based on where the slope changes from > -1 to ≤ -1."
+            },
+            {
+                unit: 8,
+                question: "Which algorithm is specifically designed for polygon clipping?",
+                options: ["Liang-Barsky", "Cohen-Sutherland", "Brute Force", "Sutherland-Hodgman"],
+                correctAnswer: 3,
+                explanation: "Sutherland-Hodgman algorithm is specifically designed for polygon clipping (area clipping)."
+            },
+            {
+                unit: 8,
+                question: "Sutherland-Hodgman processes polygons by:",
+                options: ["Sorting vertices by y", "Processing one boundary at a time", "Using parametric equations", "Using scan-line spans"],
+                correctAnswer: 1,
+                explanation: "Sutherland-Hodgman algorithm clips polygons by processing against one window boundary at a time (left, right, bottom, top)."
+            }
+        ];
+        
+        // Application variables
+        let currentUnit = 0;
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let examStarted = false;
+        
+        // DOM Elements
+        const unitsPage = document.getElementById('units-page');
+        const examPage = document.getElementById('exam-page');
+        const resultsPage = document.getElementById('results-page');
+        const unitTitle = document.getElementById('unit-title');
+        const questionsContainer = document.getElementById('questions-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const currentQuestionEl = document.getElementById('current-question');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const backToUnitsBtn = document.getElementById('back-to-units');
+        
+        // Results elements
+        const scorePercentage = document.getElementById('score-percentage');
+        const correctCountEl = document.getElementById('correct-count');
+        const wrongCountEl = document.getElementById('wrong-count');
+        const totalAnsweredEl = document.getElementById('total-answered');
+        const resultsMessage = document.getElementById('results-message');
+        
+        // Event handlers setup
+        document.addEventListener('DOMContentLoaded', function() {
+            // Unit cards events
+            const unitCards = document.querySelectorAll('.unit-card');
+            unitCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const unit = this.getAttribute('data-unit');
+                    startExam(unit);
+                });
+            });
+            
+            // Navigation buttons events
+            prevBtn.addEventListener('click', goToPreviousQuestion);
+            nextBtn.addEventListener('click', goToNextQuestion);
+            backToUnitsBtn.addEventListener('click', goBackToUnits);
+            
+            // Show units page on load
+            showPage('units-page');
+        });
+        
+        // Start exam
+        function startExam(unit) {
+            currentUnit = unit;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            
+            // Determine questions based on selected unit
+            if (unit === 'all') {
+                // Random test for all units (20 questions)
+                currentQuestions = [...allQuestions];
+                shuffleArray(currentQuestions);
+                currentQuestions = currentQuestions.slice(0, 20);
+                unitTitle.textContent = "All Units (4-8) - Comprehensive Test";
+            } else {
+                // Questions for specific unit
+                currentQuestions = allQuestions.filter(q => q.unit === parseInt(unit));
+                unitTitle.textContent = `Unit ${unit}: ${getUnitTitle(unit)}`;
+            }
+            
+            // Initialize user answers
+            for (let i = 0; i < currentQuestions.length; i++) {
+                userAnswers.push({
+                    selected: -1,
+                    isCorrect: false
+                });
+            }
+            
+            // Update exam display
+            updateExamDisplay();
+            showPage('exam-page');
+            examStarted = true;
+        }
+        
+        // Show specific page and hide others
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show requested page
+            document.getElementById(pageId).classList.add('active');
+        }
+        
+        // Update exam display
+        function updateExamDisplay() {
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Update question numbers
+            currentQuestionEl.textContent = currentQuestionIndex + 1;
+            totalQuestionsEl.textContent = currentQuestions.length;
+            
+            // Update navigation buttons state
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === currentQuestions.length - 1 ? "Finish Exam" : "Next";
+            
+            // Display current question
+            displayQuestion(currentQuestionIndex);
+        }
+        
+        // Display specific question
+        function displayQuestion(index) {
+            const question = currentQuestions[index];
+            const userAnswer = userAnswers[index];
+            
+            // Create question HTML
+            let questionHTML = `
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">${index + 1}</div>
+                        <div class="question-text">${question.question}</div>
+                    </div>
+                    
+                    <div class="options-container">
+            `;
+            
+            // Add options
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            question.options.forEach((option, optionIndex) => {
+                let optionClass = "option";
+                let feedbackHTML = "";
+                
+                // If user has answered this question
+                if (userAnswer.selected === optionIndex) {
+                    if (optionIndex === question.correctAnswer) {
+                        optionClass += " correct";
+                    } else {
+                        optionClass += " wrong";
+                    }
+                    
+                    // Show feedback
+                    feedbackHTML = `
+                        <div class="answer-feedback ${optionIndex === question.correctAnswer ? 'correct' : 'wrong'}">
+                            ${optionIndex === question.correctAnswer ? '✓ Correct Answer' : '✗ Wrong Answer'}
+                            <span>${question.explanation}</span>
+                        </div>
+                    `;
+                }
+                
+                questionHTML += `
+                    <div class="${optionClass}" data-option="${optionIndex}">
+                        <div class="option-letter">${optionLetters[optionIndex]}</div>
+                        <div class="option-text">${option}</div>
+                    </div>
+                `;
+                
+                // Add feedback after wrong option
+                if (userAnswer.selected === optionIndex && optionIndex !== question.correctAnswer) {
+                    // Show correct option too
+                    const correctOptionIndex = question.correctAnswer;
+                    questionHTML += `
+                        <div class="option correct">
+                            <div class="option-letter">${optionLetters[correctOptionIndex]}</div>
+                            <div class="option-text">${question.options[correctOptionIndex]}</div>
+                        </div>
+                    `;
+                }
+                
+                // Add feedback
+                if (userAnswer.selected === optionIndex) {
+                    questionHTML += feedbackHTML;
+                }
+            });
+            
+            questionHTML += `</div></div>`;
+            
+            // Add question to page
+            questionsContainer.innerHTML = questionHTML;
+            
+            // Add event handlers for options (only if not answered yet)
+            if (userAnswer.selected === -1) {
+                const optionElements = document.querySelectorAll('.option');
+                optionElements.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const selectedOption = parseInt(this.getAttribute('data-option'));
+                        selectAnswer(index, selectedOption);
+                    });
+                });
+            }
+        }
+        
+        // Select answer
+        function selectAnswer(questionIndex, optionIndex) {
+            const question = currentQuestions[questionIndex];
+            const isCorrect = optionIndex === question.correctAnswer;
+            
+            // Save user answer
+            userAnswers[questionIndex] = {
+                selected: optionIndex,
+                isCorrect: isCorrect
+            };
+            
+            // Redisplay question to show feedback
+            displayQuestion(questionIndex);
+            
+            // Automatically advance to next question after 1.5 seconds
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    updateExamDisplay();
+                }, 1500);
+            }
+        }
+        
+        // Go to previous question
+        function goToPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                updateExamDisplay();
+            }
+        }
+        
+        // Go to next question or finish exam
+        function goToNextQuestion() {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                updateExamDisplay();
+            } else {
+                finishExam();
+            }
+        }
+        
+        // Finish exam and show results
+        function finishExam() {
+            // Calculate results
+            let correctCount = 0;
+            let answeredCount = 0;
+            
+            userAnswers.forEach(answer => {
+                if (answer.selected !== -1) {
+                    answeredCount++;
+                    if (answer.isCorrect) {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            const wrongCount = answeredCount - correctCount;
+            const unansweredCount = currentQuestions.length - answeredCount;
+            const scorePercent = Math.round((correctCount / currentQuestions.length) * 100);
+            
+            // Update results display
+            scorePercentage.textContent = `${scorePercent}%`;
+            correctCountEl.textContent = correctCount;
+            wrongCountEl.textContent = wrongCount;
+            totalAnsweredEl.textContent = currentQuestions.length;
+            
+            // Determine result message
+            let message = "";
+            if (scorePercent >= 90) {
+                message = "Excellent! Outstanding performance.";
+            } else if (scorePercent >= 75) {
+                message = "Very Good! You have a strong understanding of the subject.";
+            } else if (scorePercent >= 60) {
+                message = "Good! You can improve your performance by reviewing some points.";
+            } else if (scorePercent >= 50) {
+                message = "Fair! You need to review the study materials.";
+            } else {
+                message = "Needs improvement. Please review and try again.";
+            }
+            
+            if (unansweredCount > 0) {
+                message += ` (${unansweredCount} questions unanswered)`;
+            }
+            
+            resultsMessage.textContent = message;
+            
+            // Show results page
+            showPage('results-page');
+        }
+        
+        // Go back to units page
+        function goBackToUnits() {
+            showPage('units-page');
+        }
+        
+        // Helper functions
+        function getUnitTitle(unit) {
+            const unitTitles = {
+                4: "Polygon Filling and Line Clipping Algorithms",
+                5: "Geometric Transformations",
+                6: "Area Filling and Polygons",
+                7: "Line Clipping Algorithms",
+                8: "Polygon Clipping and Ellipse Drawing"
+            };
+            return unitTitles[unit] || "Unknown Unit";
+        }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+    </script>
+</body>
+</html>
