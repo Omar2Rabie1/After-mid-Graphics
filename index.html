@@ -3,37 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computer Graphics Exam Practice</title>
+    <title>Midpoint Ellipse Algorithm Exam</title>
     <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --correct-color: #27ae60;
+            --wrong-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            background-color: #f5f7fa;
             color: #333;
-            padding: 20px;
-            min-height: 100vh;
+            line-height: 1.6;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            padding: 20px;
         }
         
         header {
-            background: linear-gradient(to right, #2c3e50, #4a6491);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 25px;
+            padding: 30px 0;
             text-align: center;
-            position: relative;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
         
         header h1 {
@@ -42,632 +49,1129 @@
         }
         
         header p {
+            font-size: 1.1rem;
             opacity: 0.9;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
         
-        .unit-selector {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
+        .prayer-section {
+            background-color: #fff8e1;
             padding: 20px;
-            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #f39c12;
+            font-style: italic;
         }
         
-        .unit-btn {
-            background: linear-gradient(to right, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .unit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            background: linear-gradient(to right, #2980b9, #3498db);
-        }
-        
-        .unit-btn.active {
-            background: linear-gradient(to right, #2ecc71, #27ae60);
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-        }
-        
-        .quiz-container {
-            padding: 25px;
-            display: none;
-        }
-        
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .question-counter {
-            font-weight: bold;
+        .prayer-arabic {
+            text-align: right;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
             color: #2c3e50;
-            font-size: 1.1rem;
         }
         
-        .progress-bar {
-            height: 10px;
-            background: #ecf0f1;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 15px;
+        .prayer-english {
+            font-size: 1rem;
+            color: #7f8c8d;
         }
         
-        .progress {
-            height: 100%;
-            background: linear-gradient(to right, #2ecc71, #1abc9c);
-            width: 0%;
-            transition: width 0.5s ease;
+        .exam-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .section h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+            font-size: 1.5rem;
+        }
+        
+        .section h3 {
+            color: var(--primary-color);
+            margin: 25px 0 15px 0;
+            font-size: 1.2rem;
         }
         
         .question {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #eee;
         }
         
-        .question h3 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-            line-height: 1.4;
+        .question:last-child {
+            border-bottom: none;
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-size: 1.05rem;
         }
         
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         
         .option {
-            padding: 15px;
-            border: 2px solid #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            background-color: var(--light-color);
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
-            background: #f9f9f9;
+            border: 2px solid transparent;
         }
         
         .option:hover {
-            background: #e3f2fd;
-            border-color: #2196f3;
+            background-color: #e0e7f1;
         }
         
         .option.selected {
-            background: #bbdefb;
-            border-color: #1976d2;
-            font-weight: bold;
+            border-color: var(--primary-color);
+            background-color: rgba(52, 152, 219, 0.1);
         }
         
         .option.correct {
-            background: #c8e6c9;
-            border-color: #4caf50;
+            border-color: var(--correct-color);
+            background-color: rgba(39, 174, 96, 0.1);
         }
         
-        .option.incorrect {
-            background: #ffcdd2;
-            border-color: #f44336;
+        .option.wrong {
+            border-color: var(--wrong-color);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .option-letter {
+            background-color: var(--dark-color);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .option-text {
+            flex: 1;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--correct-color);
+            border-left: 4px solid var(--correct-color);
+            display: block;
+        }
+        
+        .feedback.wrong {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--wrong-color);
+            border-left: 4px solid var(--wrong-color);
+            display: block;
+        }
+        
+        .feedback .explanation {
+            color: #7f8c8d;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .true-false-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .true-false-option {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: var(--light-color);
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .true-false-option:hover {
+            background-color: #e0e7f1;
+        }
+        
+        .true-false-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .true-false-option.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+        
+        .true-false-option.wrong {
+            border-color: var(--wrong-color);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .results-panel {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .score-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+        
+        .score-details {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .score-item {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 120px;
+        }
+        
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .correct-count {
+            color: var(--correct-color);
+        }
+        
+        .wrong-count {
+            color: var(--wrong-color);
+        }
+        
+        .score-label {
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin-top: 5px;
         }
         
         .controls {
             display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
         }
         
         .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-prev {
-            background: #95a5a6;
-            color: white;
-        }
-        
-        .btn-next {
-            background: linear-gradient(to right, #3498db, #2980b9);
-            color: white;
-        }
-        
-        .btn-submit {
-            background: linear-gradient(to right, #2ecc71, #27ae60);
-            color: white;
-        }
-        
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .result-container {
-            text-align: center;
-            padding: 30px;
-            display: none;
-        }
-        
-        .result-container h2 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-        
-        .score {
-            font-size: 5rem;
-            font-weight: bold;
-            background: linear-gradient(to right, #2ecc71, #1abc9c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 20px 0;
-        }
-        
-        .feedback {
-            margin: 25px 0;
-            padding: 20px;
-            background: #e8f4f8;
-            border-radius: 10px;
-            color: #2c3e50;
-        }
-        
-        .review-btn {
-            background: linear-gradient(to right, #9b59b6, #8e44ad);
-            color: white;
             padding: 12px 30px;
             border: none;
-            border-radius: 8px;
-            font-weight: 600;
+            border-radius: 6px;
             cursor: pointer;
-            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
         
-        .review-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
         }
         
-        .hidden {
-            display: none;
+        .btn-primary:hover {
+            background-color: #2980b9;
         }
         
-        @media (max-width: 600px) {
-            .container {
-                margin: 10px;
+        .btn-secondary {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d5dbdb;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .exam-content {
+                flex-direction: column;
             }
             
-            header h1 {
-                font-size: 1.7rem;
+            .section {
+                width: 100%;
             }
             
-            .unit-btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
+            .score-details {
+                flex-direction: column;
+                align-items: center;
             }
             
-            .question h3 {
-                font-size: 1.1rem;
+            .controls {
+                flex-direction: column;
             }
             
-            .option {
-                padding: 12px;
-                font-size: 0.95rem;
+            .btn {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>Midpoint Ellipse Algorithm Exam</h1>
+            <p>Test your knowledge of the Midpoint Ellipse Algorithm with multiple choice and true/false questions</p>
+        </div>
+    </header>
+    
     <div class="container">
-        <header>
-            <h1>Computer Graphics Exam Practice</h1>
-            <p>Test your knowledge with multiple choice and true/false questions from Units 4, 5, 6, 7, and 8</p>
-        </header>
-        
-        <div class="unit-selector">
-            <button class="unit-btn" data-unit="4">Unit 4</button>
-            <button class="unit-btn" data-unit="5">Unit 5</button>
-            <button class="unit-btn" data-unit="6">Unit 6</button>
-            <button class="unit-btn" data-unit="7">Unit 7</button>
-            <button class="unit-btn" data-unit="8">Unit 8</button>
+        <div class="prayer-section">
+            <div class="prayer-arabic">
+                {وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ ۖ فَلْيَسْتَجِيبُوا لِي وَلْيُؤْمِنُوا بِي لَعَلَّهُمْ يَرْشُدُونَ}
+            </div>
+            <div class="prayer-english">
+                "And when My servants ask you concerning Me, indeed I am near. I respond to the invocation of the supplicant when he calls upon Me. So let them respond to Me and believe in Me that they may be guided."
+            </div>
         </div>
         
-        <div class="quiz-container" id="quizContainer">
-            <div class="quiz-header">
-                <div class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></div>
-                <div class="progress-bar">
-                    <div class="progress" id="progressBar"></div>
+        <div class="prayer-section">
+            <div class="prayer-arabic">
+                اللهم إني أسألك فهم النبيين، وحفظ المرسلين، والملائكة المقربين، اللهم اجعل لساني عامرًا بذكرك، وقلبي بخشيتك، وسري بطاعتك، إنك على كل شيء قدير، حسبنا الله ونعم الوكيل
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; color: var(--secondary-color); margin-bottom: 20px;">Exam Practice Questions</h2>
+        
+        <div class="exam-content">
+            <!-- Multiple Choice Questions Section -->
+            <div class="section">
+                <h2>Multiple Choice Questions (MCQs)</h2>
+                
+                <h3>Unit 4: Midpoint Ellipse Algorithm</h3>
+                
+                <!-- Question 1 -->
+                <div class="question" id="q1">
+                    <div class="question-text">Q1. Which ellipse drawing algorithm is described in the lecture as the best for computer graphics applications?</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">Bresenham Ellipse Algorithm</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">Scan-Line Ellipse Algorithm</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">Midpoint Ellipse Algorithm</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">Polar Coordinate Ellipse Algorithm</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">The Midpoint Ellipse Algorithm is considered the best for computer graphics applications because it's efficient and uses integer arithmetic.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="question" id="q2">
+                    <div class="question-text">Q2. According to the lecture, the Midpoint Ellipse Algorithm is considered best primarily because it is:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">Simple but computationally expensive</div>
+                        </div>
+                        <div class="option correct" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">Accurate, efficient, and requires only a few integer additions per pixel</div>
+                        </div>
+                        <div class="option" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">Based on floating-point arithmetic</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">Suitable only for small ellipses</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: B</strong>
+                        <div class="explanation">The Midpoint Ellipse Algorithm is accurate, efficient, and requires only integer additions per pixel, making it ideal for rasterization.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="question" id="q3">
+                    <div class="question-text">Q3. What inputs are required before starting the Midpoint Ellipse Algorithm?</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">Only the center of the ellipse</div>
+                        </div>
+                        <div class="option correct" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">Radius along x-axis and y-axis and the center of the ellipse</div>
+                        </div>
+                        <div class="option" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">Diameter along x-axis and y-axis</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">Only the major axis length</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: B</strong>
+                        <div class="explanation">The algorithm requires the radius along x-axis (rx), radius along y-axis (ry), and the center coordinates (xc, yc).</div>
+                    </div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="question" id="q4">
+                    <div class="question-text">Q4. In the algorithm, the ellipse is initially assumed to be centered at:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">(rx, ry)</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">(1, 1)</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">(0, 0)</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">(xc, yc)</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">The algorithm initially assumes the ellipse is centered at the origin (0, 0) for simplicity, then translates points to the actual center later.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 5 -->
+                <div class="question" id="q5">
+                    <div class="question-text">Q5. What is the first point plotted for the ellipse when centered at the origin?</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">(rx, 0)</div>
+                        </div>
+                        <div class="option correct" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">(0, ry)</div>
+                        </div>
+                        <div class="option" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">(ry, 0)</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">(rx, ry)</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: B</strong>
+                        <div class="explanation">The algorithm starts at point (0, ry) on the positive y-axis and plots points in the first quadrant.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 6 -->
+                <div class="question" id="q6">
+                    <div class="question-text">Q6. The initial decision parameter for Region 1 is denoted as:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">p20</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">p2k</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">p10</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">pk</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">The initial decision parameter for Region 1 is denoted as p10 (p1₀).</div>
+                    </div>
+                </div>
+                
+                <!-- Question 7 -->
+                <div class="question" id="q7">
+                    <div class="question-text">Q7. Which of the following correctly represents the initial decision parameter for Region 1?</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">p10 = ry² - rx²ry + 0.5rx²</div>
+                        </div>
+                        <div class="option correct" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">p10 = ry² - rx²ry + 0.25rx²</div>
+                        </div>
+                        <div class="option" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">p10 = rx² - ry²rx + 0.25ry²</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">p10 = ry² + rx²ry - 0.25rx²</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: B</strong>
+                        <div class="explanation">The correct formula for the initial decision parameter in Region 1 is p10 = ry² - rx²ry + 0.25rx².</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="question" id="questionContainer">
-                <!-- Question will be inserted here -->
-            </div>
-            
-            <div class="controls">
-                <button class="btn btn-prev" id="prevBtn" disabled>Previous</button>
-                <button class="btn btn-next" id="nextBtn">Next</button>
-                <button class="btn btn-submit hidden" id="submitBtn">Submit Quiz</button>
+            <!-- More Questions Section -->
+            <div class="section">
+                <h3>More Questions</h3>
+                
+                <!-- Question 8 -->
+                <div class="question" id="q8">
+                    <div class="question-text">Q8. In Region 1, if the decision parameter p1k < 0, the next point chosen is:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">(xk, yk − 1)</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">(xk + 1, yk − 1)</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">(xk + 1, yk)</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">(xk − 1, yk)</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">If p1k < 0, the next point is (xk + 1, yk) - we increment x but keep y the same.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 9 -->
+                <div class="question" id="q9">
+                    <div class="question-text">Q9. In Region 1, if p1k ≥ 0, the next point plotted is:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">(xk, yk − 1)</div>
+                        </div>
+                        <div class="option correct" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">(xk + 1, yk − 1)</div>
+                        </div>
+                        <div class="option" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">(xk − 1, yk)</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">(xk + 1, yk)</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: B</strong>
+                        <div class="explanation">If p1k ≥ 0, the next point is (xk + 1, yk - 1) - we increment x and decrement y.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 10 -->
+                <div class="question" id="q10">
+                    <div class="question-text">Q10. The transition from Region 1 to Region 2 occurs when:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">x = y</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">x ≥ y</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">2ry²x ≥ 2rx²y</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">2ry²x < 2rx²y</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">The transition occurs when the slope changes from > -1 to ≤ -1, which is when 2ry²x ≥ 2rx²y.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 11 -->
+                <div class="question" id="q11">
+                    <div class="question-text">Q11. The initial decision parameter for Region 2 is calculated using:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">The first point of the ellipse</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">The center of the ellipse</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">The last point obtained in Region 1</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">A fixed constant value</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">The initial decision parameter for Region 2 (p20) is calculated using the last point (x, y) obtained in Region 1.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 12 -->
+                <div class="question" id="q12">
+                    <div class="question-text">Q12. The decision parameter used in Region 2 is denoted as:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">p10</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">p1k</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">p20</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">pk</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">The decision parameter for Region 2 is denoted as p20 (p2₀) initially, and p2k for subsequent points.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 13 -->
+                <div class="question" id="q13">
+                    <div class="question-text">Q13. In Region 2, if the decision parameter p2k > 0, the next point selected is:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">(xk + 1, yk)</div>
+                        </div>
+                        <div class="option correct" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">(xk, yk - 1)</div>
+                        </div>
+                        <div class="option" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">(xk + 1, yk - 1)</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">(xk - 1, yk)</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: B</strong>
+                        <div class="explanation">If p2k > 0, the next point is (xk, yk - 1) - we decrement y but keep x the same.</div>
+                    </div>
+                </div>
+                
+                <!-- Question 14 -->
+                <div class="question" id="q14">
+                    <div class="question-text">Q14. In Region 2, if p2k ≤ 0, the next point chosen is:</div>
+                    <div class="options">
+                        <div class="option" data-option="A">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">(xk - 1, yk)</div>
+                        </div>
+                        <div class="option" data-option="B">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">(xk, yk - 1)</div>
+                        </div>
+                        <div class="option correct" data-option="C">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">(xk + 1, yk - 1)</div>
+                        </div>
+                        <div class="option" data-option="D">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">(xk + 1, yk)</div>
+                        </div>
+                    </div>
+                    <div class="feedback correct">
+                        <strong>Correct Answer: C</strong>
+                        <div class="explanation">If p2k ≤ 0, the next point is (xk + 1, yk - 1) - we increment x and decrement y.</div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="result-container" id="resultContainer">
-            <h2>Quiz Complete!</h2>
-            <div class="score" id="finalScore">0%</div>
-            <div class="feedback" id="feedback"></div>
-            <button class="review-btn" id="reviewBtn">Review Quiz</button>
+        <!-- True/False Questions Section -->
+        <div class="section" style="width: 100%; margin-top: 30px;">
+            <h2>True / False Questions</h2>
+            
+            <!-- Question 17 -->
+            <div class="question" id="q17">
+                <div class="question-text">Q17. The Midpoint Ellipse Algorithm relies mainly on integer additions per pixel.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option correct" data-option="true">True</div>
+                    <div class="true-false-option" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: True</strong>
+                    <div class="explanation">The algorithm uses integer arithmetic with additions and comparisons, avoiding floating-point calculations for efficiency.</div>
+                </div>
+            </div>
+            
+            <!-- Question 18 -->
+            <div class="question" id="q18">
+                <div class="question-text">Q18. The algorithm begins by assuming the ellipse is centered at the actual screen coordinates.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option" data-option="true">True</div>
+                    <div class="true-false-option correct" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: False</strong>
+                    <div class="explanation">The algorithm initially assumes the ellipse is centered at the origin (0, 0) for simplicity, then translates points to the actual center later.</div>
+                </div>
+            </div>
+            
+            <!-- Question 19 -->
+            <div class="question" id="q19">
+                <div class="question-text">Q19. Region 1 of the ellipse is processed by incrementing x while monitoring the decision parameter.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option correct" data-option="true">True</div>
+                    <div class="true-false-option" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: True</strong>
+                    <div class="explanation">In Region 1, x is incremented in each step, and y may be decremented based on the decision parameter.</div>
+                </div>
+            </div>
+            
+            <!-- Question 20 -->
+            <div class="question" id="q20">
+                <div class="question-text">Q20. In Region 1, y always decreases regardless of the decision parameter value.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option" data-option="true">True</div>
+                    <div class="true-false-option correct" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: False</strong>
+                    <div class="explanation">In Region 1, y decreases only when the decision parameter p1k ≥ 0; otherwise, y remains the same.</div>
+                </div>
+            </div>
+            
+            <!-- Question 21 -->
+            <div class="question" id="q21">
+                <div class="question-text">Q21. The stopping condition for Region 1 is based on comparing scaled x and y values.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option correct" data-option="true">True</div>
+                    <div class="true-false-option" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: True</strong>
+                    <div class="explanation">Region 1 continues until 2ry²x ≥ 2rx²y, which is a comparison of scaled x and y values.</div>
+                </div>
+            </div>
+            
+            <!-- Question 22 -->
+            <div class="question" id="q22">
+                <div class="question-text">Q22. Region 2 processing primarily involves decrementing y values.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option correct" data-option="true">True</div>
+                    <div class="true-false-option" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: True</strong>
+                    <div class="explanation">In Region 2, y is decremented in each step, and x may be incremented based on the decision parameter.</div>
+                </div>
+            </div>
+            
+            <!-- Question 23 -->
+            <div class="question" id="q23">
+                <div class="question-text">Q23. The Midpoint Ellipse Algorithm calculates points independently for all four quadrants.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option" data-option="true">True</div>
+                    <div class="true-false-option correct" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: False</strong>
+                    <div class="explanation">The algorithm calculates points only for the first quadrant, then uses symmetry to get points in the other three quadrants.</div>
+                </div>
+            </div>
+            
+            <!-- Question 24 -->
+            <div class="question" id="q24">
+                <div class="question-text">Q24. Symmetry is used to reduce computational effort in ellipse drawing.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option correct" data-option="true">True</div>
+                    <div class="true-false-option" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: True</strong>
+                    <div class="explanation">By exploiting symmetry, we only need to calculate points for one quadrant and mirror them to the other three quadrants.</div>
+                </div>
+            </div>
+            
+            <!-- Question 25 -->
+            <div class="question" id="q25">
+                <div class="question-text">Q25. The decision parameters p10 and p20 serve the same purpose in both regions.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option" data-option="true">True</div>
+                    <div class="true-false-option correct" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: False</strong>
+                    <div class="explanation">p10 and p20 are different decision parameters with different formulas for Region 1 and Region 2 respectively.</div>
+                </div>
+            </div>
+            
+            <!-- Question 26 -->
+            <div class="question" id="q26">
+                <div class="question-text">Q26. The algorithm finishes by translating the calculated points to the actual ellipse center.</div>
+                <div class="true-false-container">
+                    <div class="true-false-option correct" data-option="true">True</div>
+                    <div class="true-false-option" data-option="false">False</div>
+                </div>
+                <div class="feedback correct">
+                    <strong>Correct Answer: True</strong>
+                    <div class="explanation">After calculating points assuming center at (0, 0), we add the actual center coordinates (xc, yc) to each point.</div>
+                </div>
+            </div>
         </div>
+        
+        <!-- Results Panel -->
+        <div class="results-panel">
+            <h2>Exam Results</h2>
+            <div class="score-display">Score: <span id="score-value">0</span>/26</div>
+            <div class="score-details">
+                <div class="score-item">
+                    <div class="score-value correct-count" id="correct-count">0</div>
+                    <div class="score-label">Correct</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value wrong-count" id="wrong-count">0</div>
+                    <div class="score-label">Wrong</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="total-answered">0</div>
+                    <div class="score-label">Answered</div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-primary" id="check-answers">Check Answers</button>
+                <button class="btn btn-secondary" id="reset-exam">Reset Exam</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Midpoint Ellipse Algorithm Exam - Computer Graphics Unit 4</p>
+            <p>Designed for educational purposes</p>
+        </footer>
     </div>
 
     <script>
-        // Quiz data structure
-        const quizData = {
-            4: [
-                {
-                    question: "Which ellipse drawing algorithm is described in the lecture as the best for computer graphics applications?",
-                    type: "mcq",
-                    options: ["Bresenham Ellipse Algorithm", "Scan-Line Ellipse Algorithm", "Midpoint Ellipse Algorithm", "Polar Coordinate Ellipse Algorithm"],
-                    correct: 2
-                },
-                {
-                    question: "According to the lecture, the Midpoint Ellipse Algorithm is considered best primarily because it is:",
-                    type: "mcq",
-                    options: ["Simple but computationally expensive", "Accurate, efficient, and requires only a few integer additions per pixel", "Based on floating-point arithmetic", "Suitable only for small ellipses"],
-                    correct: 1
-                },
-                {
-                    question: "What inputs are required before starting the Midpoint Ellipse Algorithm?",
-                    type: "mcq",
-                    options: ["Only the center of the ellipse", "Radius along x-axis and y-axis and the center of the ellipse", "Diameter along x-axis and y-axis", "Only the major axis length"],
-                    correct: 1
-                },
-                {
-                    question: "The Midpoint Ellipse Algorithm relies mainly on integer additions per pixel.",
-                    type: "tf",
-                    correct: true
-                },
-                {
-                    question: "In Region 1, y always decreases regardless of the decision parameter value.",
-                    type: "tf",
-                    correct: false
-                }
-            ],
-            5: [
-                {
-                    question: "In computer graphics, a transformation is best defined as:",
-                    type: "mcq",
-                    options: ["A method for drawing pixels on the screen", "A function that maps a point or vector to another point or vector", "A hardware operation inside the GPU", "A method used only for 3D rendering"],
-                    correct: 1
-                },
-                {
-                    question: "Which coordinate system allows translation to be represented using matrix multiplication?",
-                    type: "mcq",
-                    options: ["Cartesian coordinates", "Polar coordinates", "Homogeneous coordinates", "Normalized device coordinates"],
-                    correct: 2
-                },
-                {
-                    question: "Translation alone can change the shape of an object.",
-                    type: "tf",
-                    correct: false
-                },
-                {
-                    question: "The order of transformations in a composite transformation does not matter.",
-                    type: "tf",
-                    correct: false
-                },
-                {
-                    question: "In homogeneous coordinates, both points and vectors are represented using 4D column matrices.",
-                    type: "tf",
-                    correct: true
-                }
-            ],
-            6: [
-                {
-                    question: "A polygon in computer graphics is defined as:",
-                    type: "mcq",
-                    options: ["A curved shape defined by parametric equations", "A plane figure bounded by a finite chain of straight-line segments forming a closed loop", "Any closed shape with filled interior pixels", "A shape that must always be convex"],
-                    correct: 1
-                },
-                {
-                    question: "Scan-line polygon filling works only for convex polygons.",
-                    type: "tf",
-                    correct: false
-                },
-                {
-                    question: "Horizontal edges are excluded when building the edge table in scan-line filling.",
-                    type: "tf",
-                    correct: true
-                },
-                {
-                    question: "The boundary fill algorithm starts filling from:",
-                    type: "mcq",
-                    options: ["A boundary pixel", "A vertex", "An interior point", "The topmost scan line"],
-                    correct: 2
-                },
-                {
-                    question: "Flood fill is primarily used when:",
-                    type: "mcq",
-                    options: ["The boundary color is uniform", "The boundary color is unknown or inconsistent", "The polygon is convex", "The polygon has horizontal edges"],
-                    correct: 1
-                }
-            ],
-            7: [
-                {
-                    question: "Which statement best describes clipping in computer graphics?",
-                    type: "mcq",
-                    options: ["The process of shading objects to enhance realism", "Removing objects or parts of objects outside the visible display area", "Increasing resolution of rendered images", "Converting 3D objects to 2D objects"],
-                    correct: 1
-                },
-                {
-                    question: "Clipping ensures that only visible portions of objects are displayed.",
-                    type: "tf",
-                    correct: true
-                },
-                {
-                    question: "The viewing window always has unlimited display area.",
-                    type: "tf",
-                    correct: false
-                },
-                {
-                    question: "In Cohen-Sutherland, a line segment is completely visible when:",
-                    type: "mcq",
-                    options: ["Both endpoints have non-zero region codes", "One endpoint has a zero region code", "Both endpoints have the 0000 region code", "The line crosses two boundaries"],
-                    correct: 2
-                },
-                {
-                    question: "Liang-Barsky can be used for both 2D and 3D clipping, as stated in the lecture.",
-                    type: "tf",
-                    correct: true
-                }
-            ],
-            8: [
-                {
-                    question: "What is the main goal of a polygon clipping algorithm?",
-                    type: "mcq",
-                    options: ["To convert curved shapes into straight lines", "To generate a new polygon from the visible portion of the original polygon", "To calculate polygon area", "To fill polygons with color"],
-                    correct: 1
-                },
-                {
-                    question: "The output of a clipping algorithm is always a single polygon.",
-                    type: "tf",
-                    correct: false
-                },
-                {
-                    question: "A convex polygon can have interior angles equal to 180 degrees.",
-                    type: "tf",
-                    correct: true
-                },
-                {
-                    question: "In the Weiler–Atherton algorithm, window boundaries may be followed instead of polygon edges.",
-                    type: "tf",
-                    correct: true
-                },
-                {
-                    question: "Sutherland–Hodgman is suitable for clipping both convex and concave polygons without modification.",
-                    type: "tf",
-                    correct: false
-                }
-            ]
+        // Exam state
+        let userAnswers = {};
+        let examResults = {
+            total: 26,
+            correct: 0,
+            wrong: 0,
+            answered: 0
         };
-
+        
         // DOM elements
-        const unitButtons = document.querySelectorAll('.unit-btn');
-        const quizContainer = document.getElementById('quizContainer');
-        const questionContainer = document.getElementById('questionContainer');
-        const currentQuestionEl = document.getElementById('currentQuestion');
-        const totalQuestionsEl = document.getElementById('totalQuestions');
-        const progressBar = document.getElementById('progressBar');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        const resultContainer = document.getElementById('resultContainer');
-        const finalScoreEl = document.getElementById('finalScore');
-        const feedbackEl = document.getElementById('feedback');
-        const reviewBtn = document.getElementById('reviewBtn');
-
-        // Quiz state
-        let currentUnit = null;
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let score = 0;
-
-        // Initialize unit buttons
-        unitButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                unitButtons.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
-                // Set current unit
-                currentUnit = btn.dataset.unit;
-                // Start quiz for this unit
-                startQuiz(currentUnit);
-            });
-        });
-
-        // Start quiz for a unit
-        function startQuiz(unit) {
-            questions = quizData[unit];
-            currentQuestionIndex = 0;
-            userAnswers = new Array(questions.length).fill(null);
-            score = 0;
-            
-            // Reset UI
-            resultContainer.classList.add('hidden');
-            quizContainer.classList.remove('hidden');
-            
-            // Update total questions
-            totalQuestionsEl.textContent = questions.length;
-            
-            // Load first question
-            loadQuestion();
-            updateProgress();
-            updateButtons();
-        }
-
-        // Load current question
-        function loadQuestion() {
-            const question = questions[currentQuestionIndex];
-            currentQuestionEl.textContent = currentQuestionIndex + 1;
-            
-            let html = `<h3>${question.question}</h3>`;
-            
-            if (question.type === 'mcq') {
-                html += '<div class="options">';
-                question.options.forEach((option, index) => {
-                    const isSelected = userAnswers[currentQuestionIndex] === index;
-                    const optionClass = isSelected ? 'option selected' : 'option';
-                    html += `<div class="option" data-index="${index}">${String.fromCharCode(65 + index)}. ${option}</div>`;
-                });
-                html += '</div>';
-            } else if (question.type === 'tf') {
-                html += '<div class="options">';
-                const trueSelected = userAnswers[currentQuestionIndex] === true;
-                const falseSelected = userAnswers[currentQuestionIndex] === false;
-                
-                html += `<div class="option ${trueSelected ? 'selected' : ''}" data-value="true">True</div>`;
-                html += `<div class="option ${falseSelected ? 'selected' : ''}" data-value="false">False</div>`;
-                html += '</div>';
-            }
-            
-            questionContainer.innerHTML = html;
-            
-            // Add event listeners to options
-            document.querySelectorAll('.option').forEach(option => {
-                option.addEventListener('click', () => {
-                    if (question.type === 'mcq') {
-                        const index = parseInt(option.dataset.index);
-                        userAnswers[currentQuestionIndex] = index;
-                    } else if (question.type === 'tf') {
-                        const value = option.dataset.value === 'true';
-                        userAnswers[currentQuestionIndex] = value;
-                    }
+        const checkAnswersBtn = document.getElementById('check-answers');
+        const resetExamBtn = document.getElementById('reset-exam');
+        const scoreValue = document.getElementById('score-value');
+        const correctCount = document.getElementById('correct-count');
+        const wrongCount = document.getElementById('wrong-count');
+        const totalAnswered = document.getElementById('total-answered');
+        
+        // Initialize exam
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for MCQ options
+            const mcqOptions = document.querySelectorAll('.option');
+            mcqOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.closest('.question').id;
+                    const selectedOption = this.getAttribute('data-option');
                     
-                    // Update UI
-                    document.querySelectorAll('.option').forEach(opt => {
+                    // Mark all options in this question as not selected
+                    const question = document.getElementById(questionId);
+                    const allOptions = question.querySelectorAll('.option');
+                    allOptions.forEach(opt => {
                         opt.classList.remove('selected');
                     });
-                    option.classList.add('selected');
                     
-                    // Enable next button
-                    nextBtn.disabled = false;
+                    // Mark clicked option as selected
+                    this.classList.add('selected');
+                    
+                    // Store user answer
+                    userAnswers[questionId] = selectedOption;
+                    
+                    // Hide feedback if shown
+                    const feedback = question.querySelector('.feedback');
+                    feedback.style.display = 'none';
                 });
             });
-        }
-
-        // Update progress bar
-        function updateProgress() {
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-
-        // Update navigation buttons
-        function updateButtons() {
-            prevBtn.disabled = currentQuestionIndex === 0;
-            nextBtn.disabled = userAnswers[currentQuestionIndex] === null;
             
-            // Show submit button on last question
-            if (currentQuestionIndex === questions.length - 1) {
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.remove('hidden');
-            } else {
-                nextBtn.classList.remove('hidden');
-                submitBtn.classList.add('hidden');
-            }
-        }
-
-        // Event listeners for navigation
-        prevBtn.addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion();
-                updateProgress();
-                updateButtons();
-            }
+            // Add click handlers for True/False options
+            const tfOptions = document.querySelectorAll('.true-false-option');
+            tfOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.closest('.question').id;
+                    const selectedOption = this.getAttribute('data-option');
+                    
+                    // Mark all options in this question as not selected
+                    const question = document.getElementById(questionId);
+                    const allOptions = question.querySelectorAll('.true-false-option');
+                    allOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Mark clicked option as selected
+                    this.classList.add('selected');
+                    
+                    // Store user answer
+                    userAnswers[questionId] = selectedOption;
+                    
+                    // Hide feedback if shown
+                    const feedback = question.querySelector('.feedback');
+                    feedback.style.display = 'none';
+                });
+            });
+            
+            // Check answers button
+            checkAnswersBtn.addEventListener('click', checkAllAnswers);
+            
+            // Reset exam button
+            resetExamBtn.addEventListener('click', resetExam);
+            
+            // Initialize results display
+            updateResultsDisplay();
         });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion();
-                updateProgress();
-                updateButtons();
-            }
-        });
-
-        submitBtn.addEventListener('click', () => {
-            calculateScore();
-            showResults();
-        });
-
-        reviewBtn.addEventListener('click', () => {
-            resultContainer.classList.add('hidden');
-            quizContainer.classList.remove('hidden');
-            currentQuestionIndex = 0;
-            loadQuestion();
-            updateProgress();
-            updateButtons();
-        });
-
-        // Calculate final score
-        function calculateScore() {
-            score = 0;
-            questions.forEach((question, index) => {
-                if (userAnswers[index] !== null) {
-                    if (question.type === 'mcq') {
-                        if (userAnswers[index] === question.correct) {
-                            score++;
-                        }
-                    } else if (question.type === 'tf') {
-                        if (userAnswers[index] === question.correct) {
-                            score++;
+        
+        // Check all answers
+        function checkAllAnswers() {
+            // Reset results
+            examResults.correct = 0;
+            examResults.wrong = 0;
+            examResults.answered = 0;
+            
+            // Check MCQ questions (Q1-Q14)
+            for (let i = 1; i <= 14; i++) {
+                const questionId = `q${i}`;
+                const question = document.getElementById(questionId);
+                
+                if (!question) continue;
+                
+                const userAnswer = userAnswers[questionId];
+                const correctOption = question.querySelector('.option.correct');
+                
+                if (!correctOption) continue;
+                
+                const correctAnswer = correctOption.getAttribute('data-option');
+                
+                // Get all options
+                const allOptions = question.querySelectorAll('.option');
+                
+                // Remove previous result classes
+                allOptions.forEach(option => {
+                    option.classList.remove('correct', 'wrong');
+                });
+                
+                // Mark correct answer
+                correctOption.classList.add('correct');
+                
+                if (userAnswer) {
+                    examResults.answered++;
+                    
+                    const userOption = question.querySelector(`.option[data-option="${userAnswer}"]`);
+                    if (userOption) {
+                        if (userAnswer === correctAnswer) {
+                            examResults.correct++;
+                            userOption.classList.add('correct');
+                        } else {
+                            examResults.wrong++;
+                            userOption.classList.add('wrong');
                         }
                     }
+                    
+                    // Show feedback
+                    const feedback = question.querySelector('.feedback');
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                    }
                 }
-            });
-        }
-
-        // Show results
-        function showResults() {
-            const percentage = Math.round((score / questions.length) * 100);
-            finalScoreEl.textContent = `${percentage}%`;
-            
-            let feedback = '';
-            if (percentage >= 90) {
-                feedback = "Excellent work! You have a strong grasp of computer graphics concepts.";
-            } else if (percentage >= 70) {
-                feedback = "Good job! You understand the key concepts well.";
-            } else if (percentage >= 50) {
-                feedback = "You're on the right track. Review the material to improve your understanding.";
-            } else {
-                feedback = "Keep studying! Focus on the areas where you struggled.";
             }
-            feedbackEl.textContent = feedback;
             
-            quizContainer.classList.add('hidden');
-            resultContainer.classList.remove('hidden');
+            // Check True/False questions (Q17-Q26)
+            for (let i = 17; i <= 26; i++) {
+                const questionId = `q${i}`;
+                const question = document.getElementById(questionId);
+                
+                if (!question) continue;
+                
+                const userAnswer = userAnswers[questionId];
+                const correctOption = question.querySelector('.true-false-option.correct');
+                
+                if (!correctOption) continue;
+                
+                const correctAnswer = correctOption.getAttribute('data-option');
+                
+                // Get all options
+                const allOptions = question.querySelectorAll('.true-false-option');
+                
+                // Remove previous result classes
+                allOptions.forEach(option => {
+                    option.classList.remove('correct', 'wrong');
+                });
+                
+                // Mark correct answer
+                correctOption.classList.add('correct');
+                
+                if (userAnswer) {
+                    examResults.answered++;
+                    
+                    const userOption = question.querySelector(`.true-false-option[data-option="${userAnswer}"]`);
+                    if (userOption) {
+                        if (userAnswer === correctAnswer) {
+                            examResults.correct++;
+                            userOption.classList.add('correct');
+                        } else {
+                            examResults.wrong++;
+                            userOption.classList.add('wrong');
+                        }
+                    }
+                    
+                    // Show feedback
+                    const feedback = question.querySelector('.feedback');
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                    }
+                }
+            }
+            
+            // Update results display
+            updateResultsDisplay();
+            
+            // Scroll to results
+            document.querySelector('.results-panel').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Update results display
+        function updateResultsDisplay() {
+            scoreValue.textContent = examResults.correct;
+            correctCount.textContent = examResults.correct;
+            wrongCount.textContent = examResults.wrong;
+            totalAnswered.textContent = examResults.answered;
+        }
+        
+        // Reset exam
+        function resetExam() {
+            // Reset user answers
+            userAnswers = {};
+            
+            // Reset exam results
+            examResults.correct = 0;
+            examResults.wrong = 0;
+            examResults.answered = 0;
+            
+            // Reset all MCQ options
+            const mcqOptions = document.querySelectorAll('.option');
+            mcqOptions.forEach(option => {
+                option.classList.remove('selected', 'correct', 'wrong');
+            });
+            
+            // Reset all True/False options
+            const tfOptions = document.querySelectorAll('.true-false-option');
+            tfOptions.forEach(option => {
+                option.classList.remove('selected', 'correct', 'wrong');
+            });
+            
+            // Hide all feedback
+            const feedbacks = document.querySelectorAll('.feedback');
+            feedbacks.forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+            
+            // Update results display
+            updateResultsDisplay();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
