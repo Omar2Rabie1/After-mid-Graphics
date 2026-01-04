@@ -281,29 +281,31 @@
             color: #5f6368;
         }
         
-        .question-feedback {
+        .answer-feedback {
             margin-top: 10px;
             padding: 10px;
             border-radius: 6px;
             font-size: 0.9rem;
             display: none;
+            text-align: center;
+            font-weight: bold;
         }
         
-        .question-feedback.correct {
+        .answer-feedback.correct {
             background-color: #e6f4ea;
             color: #137333;
             display: block;
         }
         
-        .question-feedback.incorrect {
+        .answer-feedback.incorrect {
             background-color: #fce8e6;
             color: #a50e0e;
             display: block;
         }
         
-        .correct-answer {
-            font-weight: bold;
-            margin-top: 5px;
+        .feedback-icon {
+            margin-right: 8px;
+            font-size: 1.1rem;
         }
         
         .progress-bar {
@@ -376,7 +378,7 @@
 <body>
     <div class="header">
         <h1>Computer Graphics Comprehensive Exam (Units 4-8)</h1>
-        <p>Multiple Choice & True/False Questions - Test your knowledge across all units</p>
+        <p>Multiple Choice & True/False Questions - See immediate feedback when you select an answer</p>
     </div>
     
     <div class="units-container">
@@ -500,7 +502,8 @@
                         "C. Midpoint Ellipse Algorithm",
                         "D. Polar Coordinate Ellipse Algorithm"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "The Midpoint Ellipse Algorithm is considered the best for computer graphics applications because it's efficient and uses integer arithmetic."
                 },
                 {
                     id: 2,
@@ -512,7 +515,8 @@
                         "C. Based on floating-point arithmetic",
                         "D. Suitable only for small ellipses"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "The Midpoint Ellipse Algorithm is accurate, efficient, and requires only integer additions per pixel, making it ideal for rasterization."
                 },
                 {
                     id: 3,
@@ -524,7 +528,8 @@
                         "C. Diameter along x-axis and y-axis",
                         "D. Only the major axis length"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "The algorithm requires the radius along x-axis (rx), radius along y-axis (ry), and the center coordinates (xc, yc)."
                 },
                 {
                     id: 4,
@@ -536,7 +541,8 @@
                         "C. (0, 0)",
                         "D. (xc, yc)"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "The algorithm initially assumes the ellipse is centered at the origin (0, 0) for simplicity, then translates points to the actual center later."
                 },
                 {
                     id: 5,
@@ -548,7 +554,8 @@
                         "C. (ry, 0)",
                         "D. (rx, ry)"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "The algorithm starts at point (0, ry) on the positive y-axis and plots points in the first quadrant."
                 },
                 {
                     id: 6,
@@ -560,7 +567,8 @@
                         "C. p10",
                         "D. pk"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "The initial decision parameter for Region 1 is denoted as p10 (p1₀)."
                 },
                 {
                     id: 7,
@@ -572,7 +580,8 @@
                         "C. p10 = rx² - ry²rx + 0.25ry²",
                         "D. p10 = ry² + rx²ry - 0.25rx²"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "The correct formula for the initial decision parameter in Region 1 is p10 = ry² - rx²ry + 0.25rx²."
                 },
                 {
                     id: 8,
@@ -584,7 +593,8 @@
                         "C. (xk + 1, yk)",
                         "D. (xk - 1, yk)"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "If p1k < 0, the next point is (xk + 1, yk) - we increment x but keep y the same."
                 },
                 {
                     id: 9,
@@ -596,7 +606,8 @@
                         "C. (xk - 1, yk)",
                         "D. (xk + 1, yk)"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "If p1k ≥ 0, the next point is (xk + 1, yk - 1) - we increment x and decrement y."
                 },
                 {
                     id: 10,
@@ -608,7 +619,8 @@
                         "C. 2ry²x ≥ 2rx²y",
                         "D. 2ry²x < 2rx²y"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "The transition occurs when the slope changes from > -1 to ≤ -1, which is when 2ry²x ≥ 2rx²y."
                 },
                 {
                     id: 11,
@@ -620,7 +632,8 @@
                         "C. The last point obtained in Region 1",
                         "D. A fixed constant value"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "The initial decision parameter for Region 2 (p20) is calculated using the last point (x, y) obtained in Region 1."
                 },
                 {
                     id: 12,
@@ -632,7 +645,8 @@
                         "C. p20",
                         "D. pk"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "The decision parameter for Region 2 is denoted as p20 (p2₀) initially, and p2k for subsequent points."
                 },
                 {
                     id: 13,
@@ -644,7 +658,8 @@
                         "C. (xk + 1, yk - 1)",
                         "D. (xk - 1, yk)"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "If p2k > 0, the next point is (xk, yk - 1) - we decrement y but keep x the same."
                 },
                 {
                     id: 14,
@@ -656,7 +671,8 @@
                         "C. (xk + 1, yk - 1)",
                         "D. (xk + 1, yk)"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "If p2k ≤ 0, the next point is (xk + 1, yk - 1) - we increment x and decrement y."
                 },
                 {
                     id: 15,
@@ -668,7 +684,8 @@
                         "C. By recalculating for all quadrants",
                         "D. By using trigonometric functions"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "The algorithm calculates points only for the first quadrant, then uses symmetry to reflect them to the other three quadrants."
                 },
                 {
                     id: 16,
@@ -680,7 +697,8 @@
                         "C. Translation by adding the center coordinates",
                         "D. Perspective projection"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "After calculating points assuming center at (0, 0), we add the actual center coordinates (xc, yc) to each point."
                 }
             ],
             
@@ -696,7 +714,8 @@
                         "C. A hardware operation inside the GPU",
                         "D. A method used only for 3D rendering"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "A transformation is a function that maps points or vectors to other points or vectors."
                 },
                 {
                     id: 2,
@@ -708,7 +727,8 @@
                         "C. Homogeneous coordinates",
                         "D. Normalized device coordinates"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "Homogeneous coordinates allow translation to be represented as matrix multiplication."
                 },
                 {
                     id: 3,
@@ -720,7 +740,8 @@
                         "C. P′ = P × d",
                         "D. P′ = P + d"
                     ],
-                    correct: "D"
+                    correct: "D",
+                    explanation: "Translation is the addition of a displacement vector d to point P."
                 },
                 {
                     id: 4,
@@ -732,7 +753,8 @@
                         "C. Translation",
                         "D. Shear"
                     ],
-                    correct: "C"
+                    correct: "C",
+                    explanation: "Translation displaces points by a fixed distance in a given direction."
                 },
                 {
                     id: 5,
@@ -744,715 +766,43 @@
                         "C. They change the orientation of axes",
                         "D. They always involve scaling"
                     ],
-                    correct: "B"
+                    correct: "B",
+                    explanation: "Rigid-body transformations (translation and rotation) preserve distances and angles, maintaining the object's shape and size."
                 },
                 {
                     id: 6,
                     type: "tf",
                     text: "Affine transformations can be represented using homogeneous coordinates.",
-                    correct: "true"
+                    correct: "true",
+                    explanation: "True. Homogeneous coordinates allow all affine transformations to be represented as matrix multiplications."
                 },
                 {
                     id: 7,
                     type: "tf",
                     text: "Translation alone can change the shape of an object.",
-                    correct: "false"
+                    correct: "false",
+                    explanation: "False. Translation only changes position, not shape."
                 },
                 {
                     id: 8,
                     type: "tf",
                     text: "Scaling is a rigid-body transformation.",
-                    correct: "false"
+                    correct: "false",
+                    explanation: "False. Scaling is not a rigid-body transformation because it changes distances between points."
                 },
                 {
                     id: 9,
                     type: "tf",
                     text: "Rotation about a fixed point requires translating the object to the origin first.",
-                    correct: "true"
+                    correct: "true",
+                    explanation: "True. To rotate about an arbitrary point, we translate the point to the origin, rotate, then translate back."
                 },
                 {
                     id: 10,
                     type: "tf",
                     text: "Shear transformations preserve area but change angles between lines.",
-                    correct: "true"
-                }
-            ],
-            
-            // Unit 6 questions (10 sample questions)
-            unit6: [
-                {
-                    id: 1,
-                    type: "mcq",
-                    text: "A polygon in computer graphics is defined as:",
-                    options: [
-                        "A. A curved shape defined by parametric equations",
-                        "B. A plane figure bounded by a finite chain of straight-line segments forming a closed loop",
-                        "C. Any closed shape with filled interior pixels",
-                        "D. A shape that must always be convex"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 2,
-                    type: "mcq",
-                    text: "Which of the following are the two main types of polygons mentioned in the lecture?",
-                    options: [
-                        "A. Regular and irregular",
-                        "B. Simple and complex",
-                        "C. Convex and concave",
-                        "D. Open and closed"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 3,
-                    type: "mcq",
-                    text: "Area filling algorithms are primarily used to:",
-                    options: [
-                        "A. Draw polygon boundaries",
-                        "B. Clip polygons outside a window",
-                        "C. Determine and color pixels inside a boundary",
-                        "D. Perform geometric transformations"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 4,
-                    type: "mcq",
-                    text: "The scan-line polygon filling algorithm fills a polygon by:",
-                    options: [
-                        "A. Expanding outward from a seed point",
-                        "B. Scanning the polygon horizontally line by line",
-                        "C. Coloring all boundary pixels first",
-                        "D. Tracing polygon edges vertically"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 5,
-                    type: "mcq",
-                    text: "The boundary fill algorithm starts filling from:",
-                    options: [
-                        "A. A boundary pixel",
-                        "B. A vertex",
-                        "C. An interior point",
-                        "D. The topmost scan line"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 6,
-                    type: "tf",
-                    text: "A polygon must be closed to be filled using area filling algorithms.",
-                    correct: "true"
-                },
-                {
-                    id: 7,
-                    type: "tf",
-                    text: "Scan-line polygon filling works only for convex polygons.",
-                    correct: "false"
-                },
-                {
-                    id: 8,
-                    type: "tf",
-                    text: "Horizontal edges are excluded when building the edge table in scan-line filling.",
-                    correct: "true"
-                },
-                {
-                    id: 9,
-                    type: "tf",
-                    text: "Boundary fill requires the region boundary to be drawn using a single color.",
-                    correct: "true"
-                },
-                {
-                    id: 10,
-                    type: "tf",
-                    text: "Flood fill can accidentally fill outside the intended region if boundary colors vary.",
-                    correct: "false"
-                }
-            ],
-            
-            // Unit 7 questions (28 questions)
-            unit7: [
-                {
-                    id: 1,
-                    type: "mcq",
-                    text: "Which statement best describes clipping in computer graphics?",
-                    options: [
-                        "A. The process of shading objects to enhance realism",
-                        "B. Removing objects or parts of objects outside the visible display area",
-                        "C. Increasing resolution of rendered images",
-                        "D. Converting 3D objects to 2D objects"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 2,
-                    type: "mcq",
-                    text: "Which of the following is NOT listed as a type of clipping in the lecture?",
-                    options: [
-                        "A. Point clipping",
-                        "B. Line clipping",
-                        "C. Surface clipping",
-                        "D. Text clipping"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 3,
-                    type: "mcq",
-                    text: "Why is clipping important in rendering complex scenes?",
-                    options: [
-                        "A. It increases the number of lines processed",
-                        "B. It guarantees that invisible objects are fully rendered",
-                        "C. It optimizes performance by discarding unseen objects",
-                        "D. It enlarges the viewing window"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 4,
-                    type: "mcq",
-                    text: "Which of the following is stated as a benefit of clipping?",
-                    options: [
-                        "A. Allows zooming into the scene",
-                        "B. Produces faster rendering and realistic display",
-                        "C. Reduces memory usage only",
-                        "D. Removes all transformations"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 5,
-                    type: "mcq",
-                    text: "Which algorithm is explicitly described as 'Brute Force Line Clipping'?",
-                    options: [
-                        "A. Liang-Barsky Algorithm",
-                        "B. Sutherland-Hodgman Algorithm",
-                        "C. Cohen-Sutherland Algorithm",
-                        "D. A method where intersections are checked with all boundaries"
-                    ],
-                    correct: "D"
-                },
-                {
-                    id: 6,
-                    type: "mcq",
-                    text: "Which case is NOT clipped in brute force line clipping according to the lecture?",
-                    options: [
-                        "A. Lines with both endpoints inside the window",
-                        "B. Lines with one endpoint inside and one outside",
-                        "C. Lines fully outside with no boundary crossings",
-                        "D. Lines entirely inside the window"
-                    ],
-                    correct: "A"
-                },
-                {
-                    id: 7,
-                    type: "mcq",
-                    text: "What is the main disadvantage of brute-force line clipping?",
-                    options: [
-                        "A. It does not detect boundary intersections",
-                        "B. It is computationally expensive due to many intersection calculations",
-                        "C. It works only for circles",
-                        "D. It cannot clip lines with outside endpoints"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 8,
-                    type: "mcq",
-                    text: "What is the key advantage of the Cohen-Sutherland Algorithm?",
-                    options: [
-                        "A. It removes the need for region codes",
-                        "B. It increases memory usage",
-                        "C. It reduces the number of intersection calculations",
-                        "D. It clips only vertical lines"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 9,
-                    type: "mcq",
-                    text: "How many regions does Cohen-Sutherland divide the space into?",
-                    options: [
-                        "A. 4",
-                        "B. 6",
-                        "C. 8",
-                        "D. 9"
-                    ],
-                    correct: "D"
-                },
-                {
-                    id: 10,
-                    type: "mcq",
-                    text: "In Cohen-Sutherland, a line segment is completely visible when:",
-                    options: [
-                        "A. Both endpoints have non-zero region codes",
-                        "B. One endpoint has a zero region code",
-                        "C. Both endpoints have the 0000 region code",
-                        "D. The line crosses two boundaries"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 11,
-                    type: "mcq",
-                    text: "According to the lecture, a line is invisible when:",
-                    options: [
-                        "A. Both endpoints are inside",
-                        "B. One endpoint is inside and one outside",
-                        "C. No endpoint has the 0000 code",
-                        "D. Both endpoints are equal"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 12,
-                    type: "mcq",
-                    text: "What does the algorithm do when a line cannot immediately be classified as inside or outside?",
-                    options: [
-                        "A. It discards the line automatically",
-                        "B. It processes it by comparing endpoints to boundaries",
-                        "C. It converts it into a polygon",
-                        "D. It applies scaling first"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 13,
-                    type: "mcq",
-                    text: "According to the lecture, which process continues until the line is either discarded or a visible segment is found?",
-                    options: [
-                        "A. Region code reassignment",
-                        "B. Endpoint swapping",
-                        "C. Repeated comparison against window boundaries",
-                        "D. Transformation recalculation"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 14,
-                    type: "mcq",
-                    text: "What determines whether a line crosses a specific boundary in Cohen-Sutherland?",
-                    options: [
-                        "A. The slope of the line",
-                        "B. Comparing bits in the region codes of the endpoints",
-                        "C. The midpoint of the line",
-                        "D. The color of the line"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 15,
-                    type: "mcq",
-                    text: "Which statement about the Liang-Barsky algorithm is included in the lecture?",
-                    options: [
-                        "A. It does not support 3D clipping",
-                        "B. It is always slower than Cohen-Sutherland",
-                        "C. It uses a parametric equation and inequalities",
-                        "D. It does not require window boundaries"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 16,
-                    type: "mcq",
-                    text: "Which is listed as a major advantage of Liang-Barsky?",
-                    options: [
-                        "A. It never clips partially visible lines",
-                        "B. It is generally faster and more efficient, especially for partially visible lines",
-                        "C. It requires no mathematical calculations",
-                        "D. It replaces region codes entirely"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 17,
-                    type: "mcq",
-                    text: "Which is listed as a disadvantage of Liang-Barsky?",
-                    options: [
-                        "A. It cannot process 2D lines",
-                        "B. It is slower than brute force",
-                        "C. It is more complex to implement compared to Cohen-Sutherland",
-                        "D. It does not compute intersections"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 18,
-                    type: "mcq",
-                    text: "Which category do Sutherland-Hodgman and Weiler-Atherton algorithms belong to in the lecture?",
-                    options: [
-                        "A. Line clipping",
-                        "B. Area clipping",
-                        "C. Text processing",
-                        "D. Rasterization"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 19,
-                    type: "tf",
-                    text: "Clipping ensures that only visible portions of objects are displayed.",
-                    correct: "true"
-                },
-                {
-                    id: 20,
-                    type: "tf",
-                    text: "The viewing window always has unlimited display area.",
-                    correct: "false"
-                },
-                {
-                    id: 21,
-                    type: "tf",
-                    text: "Cohen-Sutherland assigns region codes to the endpoints of a line.",
-                    correct: "true"
-                },
-                {
-                    id: 22,
-                    type: "tf",
-                    text: "If one endpoint of a line has code 0000 and the other does not, the line is immediately discarded.",
-                    correct: "false"
-                },
-                {
-                    id: 23,
-                    type: "tf",
-                    text: "The brute force clipping approach may become too slow when many lines are present in a scene.",
-                    correct: "true"
-                },
-                {
-                    id: 24,
-                    type: "tf",
-                    text: "Liang-Barsky can be used for both 2D and 3D clipping, as stated in the lecture.",
-                    correct: "true"
-                },
-                {
-                    id: 25,
-                    type: "tf",
-                    text: "In Cohen-Sutherland, if both endpoints have the 0000 code, the line is entirely visible.",
-                    correct: "true"
-                },
-                {
-                    id: 26,
-                    type: "tf",
-                    text: "Clipping is used only for performance enhancement and not for visual correctness.",
-                    correct: "false"
-                },
-                {
-                    id: 27,
-                    type: "tf",
-                    text: "Lines that cannot be classified immediately in Cohen-Sutherland may or may not cross the window interior.",
-                    correct: "true"
-                },
-                {
-                    id: 28,
-                    type: "tf",
-                    text: "The lecture states that Liang-Barsky computes clipping in multiple repeated steps by default.",
-                    correct: "false"
-                }
-            ],
-            
-            // Unit 8 questions (30 questions)
-            unit8: [
-                {
-                    id: 1,
-                    type: "mcq",
-                    text: "What is the main goal of a polygon clipping algorithm?",
-                    options: [
-                        "A. To convert curved shapes into straight lines",
-                        "B. To generate a new polygon from the visible portion of the original polygon",
-                        "C. To calculate polygon area",
-                        "D. To fill polygons with color"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 2,
-                    type: "mcq",
-                    text: "In polygon clipping, the output of the algorithm is:",
-                    options: [
-                        "A. A set of pixels",
-                        "B. A raster image",
-                        "C. A new sequence of vertices defining the clipped polygon",
-                        "D. A single line segment"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 3,
-                    type: "mcq",
-                    text: "Which of the following is NOT listed as a clipping algorithm in the lecture?",
-                    options: [
-                        "A. Cohen–Sutherland Algorithm",
-                        "B. Liang–Barsky Algorithm",
-                        "C. Weiler–Atherton Algorithm",
-                        "D. Bresenham Algorithm"
-                    ],
-                    correct: "D"
-                },
-                {
-                    id: 4,
-                    type: "mcq",
-                    text: "The Sutherland–Hodgman algorithm is mainly used for:",
-                    options: [
-                        "A. Line clipping only",
-                        "B. Circle clipping",
-                        "C. Polygon clipping",
-                        "D. Curve fitting"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 5,
-                    type: "mcq",
-                    text: "The Sutherland–Hodgman algorithm clips a polygon by:",
-                    options: [
-                        "A. Testing all points simultaneously",
-                        "B. Dividing the polygon into triangles",
-                        "C. Processing one window boundary at a time",
-                        "D. Converting the polygon into scan lines"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 6,
-                    type: "mcq",
-                    text: "In the Sutherland–Hodgman algorithm, what happens when both vertices of an edge are inside the clipping boundary?",
-                    options: [
-                        "A. Nothing is saved",
-                        "B. Only the first vertex is saved",
-                        "C. Only the second vertex is saved",
-                        "D. Both vertices are saved"
-                    ],
-                    correct: "D"
-                },
-                {
-                    id: 7,
-                    type: "mcq",
-                    text: "If both vertices of an edge are outside the clipping boundary, what is saved?",
-                    options: [
-                        "A. The intersection point",
-                        "B. The first vertex only",
-                        "C. Nothing",
-                        "D. Both vertices"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 8,
-                    type: "mcq",
-                    text: "If the first vertex is inside and the second is outside the clipping boundary, what is saved?",
-                    options: [
-                        "A. Only the second vertex",
-                        "B. The first vertex and the intersection point",
-                        "C. Only the intersection point",
-                        "D. Both vertices"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 9,
-                    type: "mcq",
-                    text: "If the first vertex is outside and the second is inside, what is saved?",
-                    options: [
-                        "A. Only the intersection point",
-                        "B. The second vertex only",
-                        "C. The intersection point and the second vertex",
-                        "D. Nothing"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 10,
-                    type: "mcq",
-                    text: "What type of strategy does the Sutherland–Hodgman algorithm use?",
-                    options: [
-                        "A. Greedy",
-                        "B. Divide and conquer",
-                        "C. Dynamic programming",
-                        "D. Brute force"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 11,
-                    type: "mcq",
-                    text: "What is a convex polygon?",
-                    options: [
-                        "A. A polygon with at least one interior angle greater than 180°",
-                        "B. A polygon where all interior angles are less than or equal to 180°",
-                        "C. A polygon with intersecting edges",
-                        "D. A polygon with curved edges"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 12,
-                    type: "mcq",
-                    text: "A concave polygon is defined as a polygon that:",
-                    options: [
-                        "A. Has no interior angles",
-                        "B. Has all interior angles less than 180°",
-                        "C. Has at least one interior angle greater than 180°",
-                        "D. Is always convex"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 13,
-                    type: "mcq",
-                    text: "Why does the Sutherland–Hodgman algorithm fail for some concave polygons?",
-                    options: [
-                        "A. It cannot handle floating point values",
-                        "B. It assumes convex polygons",
-                        "C. It does not support intersections",
-                        "D. It ignores vertex ordering"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 14,
-                    type: "mcq",
-                    text: "Before applying the Sutherland–Hodgman algorithm to a concave polygon, it must be:",
-                    options: [
-                        "A. Rasterized",
-                        "B. Converted into triangles",
-                        "C. Split into convex polygons",
-                        "D. Filled with color"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 15,
-                    type: "mcq",
-                    text: "The Weiler–Atherton algorithm differs from Sutherland–Hodgman because it:",
-                    options: [
-                        "A. Works only for convex polygons",
-                        "B. Cannot handle window boundaries",
-                        "C. Correctly handles concave polygons",
-                        "D. Does not use intersection points"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 16,
-                    type: "mcq",
-                    text: "In the Weiler–Atherton algorithm, when an edge goes from outside to inside, the algorithm follows:",
-                    options: [
-                        "A. The polygon boundary",
-                        "B. The window boundary",
-                        "C. A straight diagonal",
-                        "D. The clipping edge only"
-                    ],
-                    correct: "A"
-                },
-                {
-                    id: 17,
-                    type: "mcq",
-                    text: "When an edge goes from inside to outside in the Weiler–Atherton algorithm, it follows:",
-                    options: [
-                        "A. The polygon boundary",
-                        "B. The window boundary in a counterclockwise direction",
-                        "C. The shortest path",
-                        "D. The diagonal of the polygon"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 18,
-                    type: "mcq",
-                    text: "Which algorithm can generate multiple output polygons?",
-                    options: [
-                        "A. Sutherland–Hodgman",
-                        "B. Cohen–Sutherland",
-                        "C. Weiler–Atherton",
-                        "D. Liang–Barsky"
-                    ],
-                    correct: "C"
-                },
-                {
-                    id: 19,
-                    type: "mcq",
-                    text: "A polygon that is not self-intersecting is called:",
-                    options: [
-                        "A. Concave",
-                        "B. Simple",
-                        "C. Complex",
-                        "D. Reflex"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 20,
-                    type: "mcq",
-                    text: "In polygon clipping, intersection points are created when:",
-                    options: [
-                        "A. Two vertices overlap",
-                        "B. An edge crosses the clipping boundary",
-                        "C. The polygon is convex",
-                        "D. The window is rectangular"
-                    ],
-                    correct: "B"
-                },
-                {
-                    id: 21,
-                    type: "tf",
-                    text: "The output of a clipping algorithm is always a single polygon.",
-                    correct: "false"
-                },
-                {
-                    id: 22,
-                    type: "tf",
-                    text: "A convex polygon can have interior angles equal to 180 degrees.",
-                    correct: "true"
-                },
-                {
-                    id: 23,
-                    type: "tf",
-                    text: "Sutherland–Hodgman algorithm processes one clipping boundary at a time.",
-                    correct: "true"
-                },
-                {
-                    id: 24,
-                    type: "tf",
-                    text: "A concave polygon can be clipped directly using Sutherland Hodgman without modification.",
-                    correct: "false"
-                },
-                {
-                    id: 25,
-                    type: "tf",
-                    text: "In the Weiler–Atherton algorithm, window boundaries may be followed instead of polygon edges.",
-                    correct: "true"
-                },
-                {
-                    id: 26,
-                    type: "tf",
-                    text: "A reflex angle is an angle greater than 180 degrees.",
-                    correct: "true"
-                },
-                {
-                    id: 27,
-                    type: "tf",
-                    text: "The Weiler–Atherton algorithm can produce more than one output polygon.",
-                    correct: "true"
-                },
-                {
-                    id: 28,
-                    type: "tf",
-                    text: "Polygon clipping always preserves the original number of vertices.",
-                    correct: "false"
-                },
-                {
-                    id: 29,
-                    type: "tf",
-                    text: "The main goal of polygon clipping is to remove parts of the polygon outside the clipping window.",
-                    correct: "true"
-                },
-                {
-                    id: 30,
-                    type: "tf",
-                    text: "Sutherland–Hodgman is suitable for clipping both convex and concave polygons without modification.",
-                    correct: "false"
+                    correct: "true",
+                    explanation: "True. Shear transformations preserve area but change the angles between lines."
                 }
             ]
         };
@@ -1505,74 +855,6 @@
                 });
             });
             
-            // Handle MCQ option selection
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('option')) {
-                    const option = e.target;
-                    const questionContainer = option.closest('.question-container');
-                    const questionId = questionContainer.getAttribute('data-id');
-                    const unitId = questionContainer.closest('.quiz-container').id;
-                    
-                    // Remove selected class from all options in this question
-                    questionContainer.querySelectorAll('.option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    
-                    // Add selected class to clicked option
-                    option.classList.add('selected');
-                    
-                    // Get the selected value
-                    const selectedValue = option.getAttribute('data-value');
-                    
-                    // Store the answer
-                    userAnswers[unitId][questionId] = selectedValue;
-                    
-                    // Remove any feedback when answer is changed
-                    const feedback = questionContainer.querySelector('.question-feedback');
-                    feedback.classList.remove('correct', 'incorrect');
-                    feedback.textContent = '';
-                    feedback.style.display = 'none';
-                    
-                    // Update progress for random questions
-                    if (unitId === "all-units") {
-                        updateProgress();
-                    }
-                }
-                
-                // Handle True/False selection
-                if (e.target.classList.contains('true-false-btn')) {
-                    const btn = e.target;
-                    const questionContainer = btn.closest('.question-container');
-                    const questionId = questionContainer.getAttribute('data-id');
-                    const unitId = questionContainer.closest('.quiz-container').id;
-                    
-                    // Remove selected class from all T/F buttons in this question
-                    questionContainer.querySelectorAll('.true-false-btn').forEach(b => {
-                        b.classList.remove('selected');
-                    });
-                    
-                    // Add selected class to clicked button
-                    btn.classList.add('selected');
-                    
-                    // Get the selected value
-                    const selectedValue = btn.getAttribute('data-value');
-                    
-                    // Store the answer
-                    userAnswers[unitId][questionId] = selectedValue;
-                    
-                    // Remove any feedback when answer is changed
-                    const feedback = questionContainer.querySelector('.question-feedback');
-                    feedback.classList.remove('correct', 'incorrect');
-                    feedback.textContent = '';
-                    feedback.style.display = 'none';
-                    
-                    // Update progress for random questions
-                    if (unitId === "all-units") {
-                        updateProgress();
-                    }
-                }
-            });
-            
             // Handle submit button for each unit
             document.querySelectorAll('#submit-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -1622,13 +904,13 @@
                     const quizContainer = this.closest('.quiz-container');
                     const unitId = quizContainer.id;
                     
-                    // Clear all selections
+                    // Clear all selections and feedback
                     quizContainer.querySelectorAll('.option.selected, .true-false-btn.selected').forEach(el => {
-                        el.classList.remove('selected');
+                        el.classList.remove('selected', 'correct', 'incorrect');
                     });
                     
                     // Clear all feedback
-                    quizContainer.querySelectorAll('.question-feedback').forEach(feedback => {
+                    quizContainer.querySelectorAll('.answer-feedback').forEach(feedback => {
                         feedback.classList.remove('correct', 'incorrect');
                         feedback.textContent = '';
                         feedback.style.display = 'none';
@@ -1690,6 +972,8 @@
             const questionDiv = document.createElement('div');
             questionDiv.className = 'question-container';
             questionDiv.setAttribute('data-id', question.id);
+            questionDiv.setAttribute('data-correct', question.correct);
+            questionDiv.setAttribute('data-explanation', question.explanation || "");
             
             let questionHtml = `
                 <div class="question-number">${question.id}</div>
@@ -1720,10 +1004,94 @@
                 `;
             }
             
-            questionHtml += `<div class="question-feedback"></div>`;
+            questionHtml += `<div class="answer-feedback"></div>`;
             questionDiv.innerHTML = questionHtml;
             
+            // Add click event to options
+            if (question.type === "mcq") {
+                questionDiv.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        handleOptionClick(this, questionDiv, unit);
+                    });
+                });
+            } else if (question.type === "tf") {
+                questionDiv.querySelectorAll('.true-false-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        handleOptionClick(this, questionDiv, unit);
+                    });
+                });
+            }
+            
             return questionDiv;
+        }
+        
+        // Function to handle option click
+        function handleOptionClick(selectedElement, questionDiv, unit) {
+            const questionId = questionDiv.getAttribute('data-id');
+            const correctAnswer = questionDiv.getAttribute('data-correct');
+            const explanation = questionDiv.getAttribute('data-explanation');
+            const selectedValue = selectedElement.getAttribute('data-value');
+            
+            // Store user answer
+            userAnswers[unit][questionId] = selectedValue;
+            
+            // Remove selected class from all options in this question
+            if (questionDiv.querySelector('.options-container')) {
+                questionDiv.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+            } else if (questionDiv.querySelector('.true-false-container')) {
+                questionDiv.querySelectorAll('.true-false-btn').forEach(btn => {
+                    btn.classList.remove('selected', 'correct', 'incorrect');
+                });
+            }
+            
+            // Add selected class to clicked element
+            selectedElement.classList.add('selected');
+            
+            // Check if answer is correct
+            const isCorrect = selectedValue === correctAnswer;
+            
+            // Mark correct and incorrect answers
+            if (questionDiv.querySelector('.options-container')) {
+                // MCQ question
+                questionDiv.querySelectorAll('.option').forEach(opt => {
+                    const optValue = opt.getAttribute('data-value');
+                    if (optValue === correctAnswer) {
+                        opt.classList.add('correct');
+                    } else if (optValue === selectedValue && !isCorrect) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+            } else if (questionDiv.querySelector('.true-false-container')) {
+                // True/False question
+                questionDiv.querySelectorAll('.true-false-btn').forEach(btn => {
+                    const btnValue = btn.getAttribute('data-value');
+                    if (btnValue === correctAnswer) {
+                        btn.classList.add('correct');
+                    } else if (btnValue === selectedValue && !isCorrect) {
+                        btn.classList.add('incorrect');
+                    }
+                });
+            }
+            
+            // Show feedback
+            const feedback = questionDiv.querySelector('.answer-feedback');
+            if (isCorrect) {
+                feedback.innerHTML = `<span class="feedback-icon">✓</span> Correct! ${explanation}`;
+                feedback.classList.remove('incorrect');
+                feedback.classList.add('correct');
+            } else {
+                feedback.innerHTML = `<span class="feedback-icon">✗</span> Incorrect. The correct answer is <strong>${correctAnswer}</strong>. ${explanation}`;
+                feedback.classList.remove('correct');
+                feedback.classList.add('incorrect');
+            }
+            feedback.style.display = 'block';
+            
+            // Update progress for random questions
+            if (unit === "all-units") {
+                updateProgress();
+            }
         }
         
         // Function to generate random question set
@@ -1742,9 +1110,9 @@
                 });
             }
             
-            // Shuffle array and pick 30 random questions
+            // Shuffle array and pick 10 random questions (for demo)
             const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-            currentRandomQuestions = shuffled.slice(0, 30);
+            currentRandomQuestions = shuffled.slice(0, 10);
             
             // Add questions to container
             currentRandomQuestions.forEach((q, index) => {
@@ -1818,17 +1186,6 @@
                         }
                     });
                 }
-                
-                // Show feedback
-                const feedback = questionContainer.querySelector('.question-feedback');
-                if (userAnswer === correctAnswer) {
-                    feedback.textContent = 'Correct!';
-                    feedback.classList.add('correct');
-                } else {
-                    feedback.textContent = `Incorrect. The correct answer is ${correctAnswer}.`;
-                    feedback.classList.add('incorrect');
-                }
-                feedback.style.display = 'block';
             });
         }
     </script>
